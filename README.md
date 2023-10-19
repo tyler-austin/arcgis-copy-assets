@@ -1,3 +1,6 @@
+## arcgis-copy-assets
+Copies assets from @arcgis/core to the public folder
+
 ### Install
 ```
 yarn add arcgis-copy-assets
@@ -14,6 +17,23 @@ npm install -s arcgis-copy-assets
 "scripts": {
   "copy:assets": "arcgis-copy-assets -v -C --p pnpm -c arcgis.config.json",
 }
+```
+
+```
+// in your app component
+import esriConfig from '@arcgis/core/config';
+import { setAssetPath } from '@esri/calcite-components/dist/components';
+
+esriConfig.assetsPath = './arcgis';
+setAssetPath('./calcite');
+```
+
+```
+// .gitignore
+
+# arcgis assets
+/public/arcgis
+/public/calcite
 ```
 
 ### Options (Supersede configurations)
