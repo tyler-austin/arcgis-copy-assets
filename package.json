@@ -1,0 +1,20 @@
+{
+  "name": "arcgis-copy-assets",
+  "version": "0.1.0",
+  "description": "Copies assets from @arcgis/core to the public folder",
+  "main": "index.js",
+  "bin": {
+    "my-package": "./index.mjs"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.10",
+    "glob": "^10.3.4",
+    "winston": "^3.11.0",
+    "yargs": "^17.7.2"
+  },
+  "author": {
+    "name": "Tyler Austin",
+    "email": "tyler.e.austin@gmail.com"
+  },
+  "license": "MIT"
+}
