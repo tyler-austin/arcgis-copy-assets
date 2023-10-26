@@ -121,7 +121,7 @@ const extractZippedDependency = (cache, zipPattern, targetDirectory) => {
     process.exit(1);
   } else {
     // grab last zip file
-    zipFile = zipFiles[zipFiles.length - 1];
+    zipFile = zipFiles[0];
     logger.verbose(`Found zip file: ${zipFile}`);
   }
 
