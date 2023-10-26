@@ -112,6 +112,7 @@ const checkDependencyExists = (packageJson, dependency) => {
 const extractZippedDependency = (cache, zipPattern, targetDirectory) => {
   logger.verbose(`Searching for zip file with pattern ${zipPattern} in ${cache}...`);
   const zipFiles = glob.sync(zipPattern, { cwd: cache }); // find zip file in cache directory
+  logger.verbose(`Found ${zipFiles.length} zip files.\n${JSON.stringify(zipFiles, null, 2)}`);
 
   let zipFile = undefined;
   if (zipFiles.length === 0) {
@@ -121,7 +122,7 @@ const extractZippedDependency = (cache, zipPattern, targetDirectory) => {
   } else {
     // grab last zip file
     zipFile = zipFiles[zipFiles.length - 1];
-    logger.verbose(`Found zip file: ${zipPattern}`);
+    logger.verbose(`Found zip file: ${zipFile}`);
   }
 
   const zipFilePath = path.join('../../.yarn/cache', zipFile);
