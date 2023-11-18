@@ -113,7 +113,10 @@ const checkDependencyExists = (packageJson, dependency) => {
 const extractZippedDependency = (cache, zipPattern, targetDirectory) => {
   logger.verbose(`Searching for zip file with pattern ${zipPattern} in ${cache}...`);
   const zipFiles = glob.sync(zipPattern, { cwd: cache }); // find zip file in cache directory
-  logger.verbose(`Found ${zipFiles.length} zip files.\n${JSON.stringify(zipFiles, null, 2)}`);
+  const parsedVersions = zipFiles.map(parseVersion);
+  const sortedParsedVersions = sortBy(parsedVersions, [compareVersions]);
+  const sortedZipFiles = sortedParsedVersions.map(item => item.originalString);
+  logger.verbose(`Found ${sortedZipFiles.length} zip files.\n${JSON.stringify(sortedZipFiles, null, 2)}`);
 
   let zipFile = undefined;
   if (zipFiles.length === 0) {
@@ -121,9 +124,6 @@ const extractZippedDependency = (cache, zipPattern, targetDirectory) => {
     logger.error(`No zip file found for: ${zipPattern}`);
     process.exit(1);
   } else {
-    const parsedVersions = zipFiles.map(parseVersion);
-    const sortedParsedVersions = sortBy(parsedVersions, [compareVersions]);
-    const sortedVersionStrings = sortedParsedVersions.map(item => item.originalString);
     zipFile = sortedVersionStrings[0];
     logger.verbose(`Found zip file: ${zipFile}`);
   }
