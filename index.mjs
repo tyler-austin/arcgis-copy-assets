@@ -154,12 +154,15 @@ const compareVersions = (a, b) => {
   if (!a || !b || !a.version || !b.version) {
     return 0;
   }
-  for (let i = 0; i < Math.min(a.version.length, b.version.length); i++) {
-    if (a.version[i] !== b.version[i]) {
-      return b.version[i] - a.version[i]; // For descending order
+  for (let i = 0; i < Math.max(a.version.length, b.version.length); i++) {
+    const aVersionPart = i < a.version.length ? a.version[i] : 0;
+    const bVersionPart = i < b.version.length ? b.version[i] : 0;
+
+    if (aVersionPart !== bVersionPart) {
+      return bVersionPart - aVersionPart; // For descending order
     }
   }
-  return b.version.length - a.version.length;
+  return 0;
 };
 
 const main = config => {
