@@ -136,7 +136,7 @@ const extractZippedDependency = (cache, zipPattern, targetDirectory) => {
 };
 
 // Function to extract and parse version number from string
-const parseVersion = (versionString): => {
+const parseVersion = (versionString) => {
   const versionMatch = versionString.match(/(\d+\.\d+\.\d+)/);
   return {
     version: versionMatch ? versionMatch[0].split('.').map(Number) : [],
