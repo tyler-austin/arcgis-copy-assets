@@ -166,7 +166,7 @@ const main = config => {
   const packages = [
     {
       name: '@arcgis/core',
-      pattern: '@arcgis-core-*.zip',
+      pattern: '@arcgis-core-npm-*.zip',
       assetsDirectory: arcgisAssetsDirectory,
       outputDirectory: path.join(publicDirectory, 'arcgis'),
     },
@@ -174,7 +174,7 @@ const main = config => {
   if (includeCalcite) {
     packages.push({
       name: '@esri/calcite-components',
-      pattern: '@esri-calcite-components-*.zip',
+      pattern: '@esri-calcite-components-npm-*.zip',
       assetsDirectory: calciteAssetsDirectory,
       outputDirectory: path.join(publicDirectory, 'calcite'),
     });
