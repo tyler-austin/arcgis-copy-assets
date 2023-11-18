@@ -120,7 +120,7 @@ const extractZippedDependency = (cache, zipPattern, targetDirectory) => {
   }
 
   logger.verbose(`Found ${zipFiles.length} zip files.\n${JSON.stringify(zipFiles, null, 2)}`); ``
-  const parsedVersions = versionStrings.map(parseVersion).filter(v => v !== null);
+  const parsedVersions = zipFiles.map(parseVersion).filter(v => v !== null);
   logger.verbose(`Parsed versions:\n${JSON.stringify(parsedVersions, null, 2)}`);
   const sortedParsedVersions = parsedVersions.sort(compareVersions);
   logger.verbose(`Sorted parsed versions:\n${JSON.stringify(sortedParsedVersions, null, 2)}`);
