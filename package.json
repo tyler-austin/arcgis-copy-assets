@@ -1,6 +1,6 @@
 {
   "name": "arcgis-copy-assets",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Copies assets from @arcgis/core to the public folder",
   "main": "index.js",
   "bin": {

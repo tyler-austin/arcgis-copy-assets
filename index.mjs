@@ -13,7 +13,7 @@ import path from 'path';
 import { createLogger, format, transports } from 'winston';
 import { hideBin } from 'yargs/helpers';
 import yargs from 'yargs/yargs';
-import { sortBy } from 'lodash';
+import _ from 'lodash';
 
 let glob;
 const importedGlob = await import('glob');
@@ -114,7 +114,7 @@ const extractZippedDependency = (cache, zipPattern, targetDirectory) => {
   logger.verbose(`Searching for zip file with pattern ${zipPattern} in ${cache}...`);
   const zipFiles = glob.sync(zipPattern, { cwd: cache }); // find zip file in cache directory
   const parsedVersions = zipFiles.map(parseVersion);
-  const sortedParsedVersions = sortBy(parsedVersions, [compareVersions]);
+  const sortedParsedVersions = _.sortBy(parsedVersions, [compareVersions]);
   const sortedZipFiles = sortedParsedVersions.map(item => item.originalString);
   logger.verbose(`Found ${sortedZipFiles.length} zip files.\n${JSON.stringify(sortedZipFiles, null, 2)}`);
 
