@@ -124,7 +124,7 @@ const extractZippedDependency = (cache, zipPattern, targetDirectory) => {
     logger.error(`No zip file found for: ${zipPattern}`);
     process.exit(1);
   } else {
-    zipFile = sortedVersionStrings[0];
+    zipFile = sortedZipFiles[0];
     logger.verbose(`Found zip file: ${zipFile}`);
   }
 
