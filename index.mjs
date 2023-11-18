@@ -13,7 +13,6 @@ import path from 'path';
 import { createLogger, format, transports } from 'winston';
 import { hideBin } from 'yargs/helpers';
 import yargs from 'yargs/yargs';
-import _ from 'lodash';
 
 let glob;
 const importedGlob = await import('glob');
@@ -121,9 +120,9 @@ const extractZippedDependency = (cache, zipPattern, targetDirectory) => {
   }
 
   logger.verbose(`Found ${zipFiles.length} zip files.\n${JSON.stringify(zipFiles, null, 2)}`); ``
-  const parsedVersions = zipFiles.map(parseVersion);
+  const parsedVersions = versionStrings.map(parseVersion).filter(v => v !== null);
   logger.verbose(`Parsed versions:\n${JSON.stringify(parsedVersions, null, 2)}`);
-  const sortedParsedVersions = _.sortBy(parsedVersions, [compareVersions]);
+  const sortedParsedVersions = parsedVersions.sort(compareVersions);
   logger.verbose(`Sorted parsed versions:\n${JSON.stringify(sortedParsedVersions, null, 2)}`);
   const sortedZipFiles = sortedParsedVersions.map(item => item.originalString);
   logger.verbose(`Sorted zip files:\n${JSON.stringify(sortedZipFiles, null, 2)}`);
@@ -142,7 +141,7 @@ const parseVersion = (versionString) => {
   const versionMatch = versionString.match(/(\d+\.\d+\.\d+)/);
   if (versionMatch) {
     return {
-      version: versionMatch ? versionMatch[0].split('.').map(Number) : null,
+      version: versionMatch[0].split('.').map(Number),
       originalString: versionString
     };
   }
