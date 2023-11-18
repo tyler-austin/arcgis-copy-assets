@@ -1,6 +1,6 @@
 {
   "name": "arcgis-copy-assets",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Copies assets from @arcgis/core to the public folder",
   "main": "index.js",
   "bin": {
@@ -9,6 +9,7 @@
   "dependencies": {
     "adm-zip": "^0.5.10",
     "glob": "^10.3.4",
+    "lodash": "^4.17.21",
     "winston": "^3.11.0",
     "yargs": "^17.7.2"
   },

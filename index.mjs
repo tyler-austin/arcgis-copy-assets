@@ -13,6 +13,7 @@ import path from 'path';
 import { createLogger, format, transports } from 'winston';
 import { hideBin } from 'yargs/helpers';
 import yargs from 'yargs/yargs';
+import { sortBy } from 'lodash';
 
 let glob;
 const importedGlob = await import('glob');
@@ -120,8 +121,10 @@ const extractZippedDependency = (cache, zipPattern, targetDirectory) => {
     logger.error(`No zip file found for: ${zipPattern}`);
     process.exit(1);
   } else {
-    // grab last zip file
-    zipFile = zipFiles[0];
+    const parsedVersions = zipFiles.map(parseVersion);
+    const sortedParsedVersions = sortBy(parsedVersions, [compareVersions]);
+    const sortedVersionStrings = sortedParsedVersions.map(item => item.originalString);
+    zipFile = sortedVersionStrings[0];
     logger.verbose(`Found zip file: ${zipFile}`);
   }
 
@@ -130,6 +133,25 @@ const extractZippedDependency = (cache, zipPattern, targetDirectory) => {
   const zip = new AdmZip(zipFilePath);
   zip.extractAllTo(targetDirectory, true);
   logger.verbose("Extracted asset's zip file successfully.");
+};
+
+// Function to extract and parse version number from string
+const parseVersion = (versionString: string): { version: number[], originalString: string } => {
+  const versionMatch = versionString.match(/(\d+\.\d+\.\d+)/);
+  return {
+    version: versionMatch ? versionMatch[0].split('.').map(Number) : [],
+    originalString: versionString
+  };
+};
+
+// Custom comparator for version numbers
+const compareVersions = (a: { version: number[] }, b: { version: number[] }): number => {
+  for (let i = 0; i < Math.min(a.version.length, b.version.length); i++) {
+    if (a.version[i] !== b.version[i]) {
+      return b.version[i] - a.version[i]; // For descending order
+    }
+  }
+  return b.version.length - a.version.length;
 };
 
 const main = config => {
