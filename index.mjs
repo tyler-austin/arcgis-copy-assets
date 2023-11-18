@@ -113,20 +113,22 @@ const checkDependencyExists = (packageJson, dependency) => {
 const extractZippedDependency = (cache, zipPattern, targetDirectory) => {
   logger.verbose(`Searching for zip file with pattern ${zipPattern} in ${cache}...`);
   const zipFiles = glob.sync(zipPattern, { cwd: cache }); // find zip file in cache directory
-  const parsedVersions = zipFiles.map(parseVersion);
-  const sortedParsedVersions = _.sortBy(parsedVersions, [compareVersions]);
-  const sortedZipFiles = sortedParsedVersions.map(item => item.originalString);
-  logger.verbose(`Found ${sortedZipFiles.length} zip files.\n${JSON.stringify(sortedZipFiles, null, 2)}`);
 
-  let zipFile = undefined;
   if (zipFiles.length === 0) {
     // handle case where no zip file is found
     logger.error(`No zip file found for: ${zipPattern}`);
     process.exit(1);
-  } else {
-    zipFile = sortedZipFiles[0];
-    logger.verbose(`Found zip file: ${zipFile}`);
   }
+
+  logger.verbose(`Found ${zipFiles.length} zip files.\n${JSON.stringify(zipFiles, null, 2)}`); ``
+  const parsedVersions = zipFiles.map(parseVersion);
+  logger.verbose(`Parsed versions:\n${JSON.stringify(parsedVersions, null, 2)}`);
+  const sortedParsedVersions = _.sortBy(parsedVersions, [compareVersions]);
+  logger.verbose(`Sorted parsed versions:\n${JSON.stringify(sortedParsedVersions, null, 2)}`);
+  const sortedZipFiles = sortedParsedVersions.map(item => item.originalString);
+  logger.verbose(`Sorted zip files:\n${JSON.stringify(sortedZipFiles, null, 2)}`);
+  const zipFile = sortedZipFiles[0];
+  logger.verbose(`Using zip file: ${zipFile}`);
 
   const zipFilePath = path.join('../../.yarn/cache', zipFile);
 
