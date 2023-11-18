@@ -138,15 +138,18 @@ const extractZippedDependency = (cache, zipPattern, targetDirectory) => {
 // Function to extract and parse version number from string
 const parseVersion = (versionString) => {
   const versionMatch = versionString.match(/(\d+\.\d+\.\d+)/);
-  return {
-    version: versionMatch ? versionMatch[0].split('.').map(Number) : null,
-    originalString: versionString
-  };
+  if (versionMatch) {
+    return {
+      version: versionMatch ? versionMatch[0].split('.').map(Number) : null,
+      originalString: versionString
+    };
+  }
+  return null;
 };
 
 // Custom comparator for version numbers
 const compareVersions = (a, b) => {
-  if (!a.version || !b.version) {
+  if (!a || !b || !a.version || !b.version) {
     return 0;
   }
   for (let i = 0; i < Math.min(a.version.length, b.version.length); i++) {
