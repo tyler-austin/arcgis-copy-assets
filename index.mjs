@@ -139,13 +139,16 @@ const extractZippedDependency = (cache, zipPattern, targetDirectory) => {
 const parseVersion = (versionString) => {
   const versionMatch = versionString.match(/(\d+\.\d+\.\d+)/);
   return {
-    version: versionMatch ? versionMatch[0].split('.').map(Number) : [],
+    version: versionMatch ? versionMatch[0].split('.').map(Number) : null,
     originalString: versionString
   };
 };
 
 // Custom comparator for version numbers
 const compareVersions = (a, b) => {
+  if (!a.version || !b.version) {
+    return 0;
+  }
   for (let i = 0; i < Math.min(a.version.length, b.version.length); i++) {
     if (a.version[i] !== b.version[i]) {
       return b.version[i] - a.version[i]; // For descending order
